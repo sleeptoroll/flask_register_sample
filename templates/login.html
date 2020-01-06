@@ -7,20 +7,36 @@
 </head>
 
 <body>
-  <form action="" method="post">
-    {% for message in get_flashed_messages() %}
-    {{ message }}
-    {% endfor %}
-    <br>
-    <label for="">用户名</label><input type="text" name="user" placeholder="请输入用户名">
-    <br>
-    <label>密码：</label><input type="password" name="pwd" placeholder="请输入密码" />
-    <br>
-    <input type="submit" value="登录" />
-    <a href="{{ url_for('register') }}">
-      <input type="button" value="去注册" />
-    </a>
+  {% for msg in get_flashed_messages() %}
+  <p class="flask_msg" style="color: royalblue;">
+    {{ msg }}
+  </p>
+  {% endfor %}
+
+  <form method="POST">
+    
+    <div>
+      {{ form.account }}
+      {% for err in form.account.errors %}
+      <div>
+        <font style="color: red;">{{ err }}</font>
+      </div>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.pwd }}
+      {% for err in form.pwd.errors %}
+      <div>
+        <font style="color: red;">{{ err }}</font>
+      </div>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.submit }}
+      {{ form.csrf_token }}
+    </div>
   </form>
+
 </body>
 
 </html>
