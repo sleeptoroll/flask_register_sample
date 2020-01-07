@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>管理员注册</title>
+  <meta charset="UTF-8">
+  <title>管理员注册</title>
 </head>
+
 <body>
-    <form action="" method="post">
-        {% for message in get_flashed_messages() %}
-            {{ message }}
+  {% for msg in get_flashed_messages() %}
+  <p class="flask_msg" style="color:navy">
+    {{ msg }}
+  </p>
+  {% endfor %}
+  <form method="post">
+    <div>
+      <div>
+        {{ form.account }}
+        {% for err in form.account.errors %}
+        <div>
+          <font style="color: red;">{{ err }}</font>
+        </div>
         {% endfor %}
-        <br>
-        <label for="">用户名</label><input type="text" name="user" placeholder="请输入用户名">
-        <br>
-        <label>密码：</label><input type="password" name="pwd1" placeholder="请输入密码">
-        <br>
-        <label>确认密码：</label><input type="password" name="pwd2" placeholder="请确认密码">
-        <br>
-        <button type="submit">注册</button>
-    </form>
+      </div>
+      <div>
+        {{ form.pwd }}
+        {% for err in form.pwd.errors %}
+        <div>
+          <font style="color: red;">{{ err }}</font>
+        </div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.repwd }}
+        {% for err in form.repwd.errors %}
+        <div>
+          <font style="color: red;">{{ err }}</font>
+        </div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.submit }}
+        {{ form.csrf_token }}
+      </div>
+    </div>
+  </form>
 </body>
+
 </html>

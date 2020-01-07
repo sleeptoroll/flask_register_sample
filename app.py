@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, flash, session, redirect, fla
 from exts import db
 import config
 from models import Admin
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 from functools import wraps
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -19,13 +20,24 @@ def admin_login_req(f):
         if "admin" not in session:
             return redirect(url_for("login", next=request.url))
         return f(*args, **kwargs)
-        
+
     return decorated_function
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    form = RegisterForm()
+    if form.validate_on_submit():
+        data = form.data
+        admin = Admin(
+            user=data["account"],
+            pwd=generate_password_hash(data["pwd"])  # hash加密密码
+        )
+        db.session.add(admin)
+        db.session.commit()
+        flash("注册成功，请登录！", "reg_ok")
+        return redirect(url_for("login"))
+    return render_template('register.html', form=form)
 
 
 @app.route('/', methods=['GET', 'POST'])

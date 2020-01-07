@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, EqualTo, ValidationError
 from models import Admin
 
 
@@ -49,3 +49,57 @@ class LoginForm(FlaskForm):
         admin = Admin.query.filter_by(user=account).count()
         if admin == 0:
             raise ValidationError("账号不存在！")
+
+
+class RegisterForm(FlaskForm):
+    account = StringField(
+        label="用户名",
+        description="用户名",
+        validators=[
+            DataRequired("用户名必填！")
+        ],
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入用户名",
+            "required": False
+        }
+    )
+    pwd = PasswordField(
+        label="密码",
+        validators=[
+            DataRequired("请输入密码！")
+        ],
+        description="密码",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入密码",
+            "required": False
+        }
+    )
+    repwd = PasswordField(
+        label="确认密码",
+        validators=[
+            DataRequired("请再次确认密码！"),
+            EqualTo("pwd", "两次输入的密码不一致，请重新输入")
+        ],
+        description="确认密码",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请再次输入密码",
+            "required": False
+        }
+    )
+    submit = SubmitField(
+        "注册",
+        render_kw={
+            "class": ""
+        }
+    )
+
+    # 这里使用固定格式的验证方法名验证用户的唯一性: 方法名必须为：def validate_验证表单名(self,field)
+    # 这里的验证表单名必须和类中定义的字段名(account,pwd,repwd等)一一对应
+    def validate_account(self, field):
+        account = field.data
+        admin = Admin.query.filter_by(user=account).count()
+        if admin == 1:
+            raise ValidationError("用户已经存在！请使用其它用户名")
