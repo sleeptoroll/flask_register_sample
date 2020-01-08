@@ -15,7 +15,7 @@ class LoginForm(FlaskForm):
         description="账号",
         render_kw={
             "class": "form-control",
-            "placeholder": "请输入账号",
+            "placeholder": "请输入用户名",
             # 当使用了DaraRequired()的时候,默认要求此字段必填.所以这里必须将required设置为False
             # 才能在input标签中不添加required属性
             "required": False
@@ -37,7 +37,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(
         "登录",
         render_kw={
-            "class": ""
+            "class": "btn btn-primary block full-width m-b"
         }
     )
 
@@ -92,7 +92,7 @@ class RegisterForm(FlaskForm):
     submit = SubmitField(
         "注册",
         render_kw={
-            "class": ""
+            "class": "btn btn-primary block full-width m-b"
         }
     )
 

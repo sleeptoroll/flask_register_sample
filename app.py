@@ -6,7 +6,7 @@ from forms import LoginForm, RegisterForm
 from functools import wraps
 from werkzeug.security import generate_password_hash
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config.from_object(config)
 db.init_app(app)
 
@@ -65,13 +65,14 @@ def login():
 def logout():
     # 删除session中当前用户account
     session.pop("admin", None)
+    flash("退出成功，请重新登录！")
     return redirect(url_for("login"))
 
 
 @app.route('/user')
 @admin_login_req
 def index():
-    name = session['admin']
+    name = session.get('admin') # 或者使用字典的用法获取键的值 name = session['admin']
     return render_template("index.html", username=name)
 
 
