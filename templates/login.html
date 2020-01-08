@@ -16,6 +16,7 @@
   <form method="POST">
     
     <div>
+      {{ form.account.label }}
       {{ form.account }}
       {% for err in form.account.errors %}
       <div>
@@ -24,6 +25,7 @@
       {% endfor %}
     </div>
     <div>
+      {{ form.pwd.label }}
       {{ form.pwd }}
       {% for err in form.pwd.errors %}
       <div>
@@ -36,7 +38,7 @@
       {{ form.csrf_token }}
     </div>
   </form>
-
+  <a href="{{ url_for('register') }}"><button>去注册</button></a>
 </body>
 
 </html>

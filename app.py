@@ -71,7 +71,8 @@ def logout():
 @app.route('/user')
 @admin_login_req
 def index():
-    return 'User Dashboard'
+    name = session['admin']
+    return render_template("index.html", username=name)
 
 
 if __name__ == '__main__':
