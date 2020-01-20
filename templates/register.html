@@ -20,13 +20,24 @@
       </div>
       <h3>注册 IN+</h3>
       <p>创建帐户在行动中看到它。</p>
+
+
       <form method="POST" class="m-t" role="form">
         <div class="form-group">
           <!-- <input type="text" class="form-control" placeholder="用户名" required=""> -->
           {{ form.account }}
           {% for err in form.account.errors %}
           <div>
-            <font style="color: red;">{{ err }}</font>
+            <font style="color: #a94442;">{{ err }}</font>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <!-- <input type="text" class="form-control" placeholder="用户名" required=""> -->
+          {{ form.email }}
+          {% for err in form.email.errors %}
+          <div>
+            <font style="color: #a94442;">{{ err }}</font>
           </div>
           {% endfor %}
         </div>
@@ -38,7 +49,7 @@
           {{ form.pwd }}
           {% for err in form.pwd.errors %}
           <div>
-            <font style="color: red;">{{ err }}</font>
+            <font style="color: #a94442;">{{ err }}</font>
           </div>
           {% endfor %}
         </div>
@@ -47,7 +58,7 @@
           {{ form.repwd }}
           {% for err in form.repwd.errors %}
           <div>
-            <font style="color: red;">{{ err }}</font>
+            <font style="color: #a94442;">{{ err }}</font>
           </div>
           {% endfor %}
         </div>

@@ -24,9 +24,11 @@
       <p>登录进去。在行动中看到它。</p>
       <!-- 闪现消息提示 -->
       {% for msg in get_flashed_messages() %}
-      <p class="flask_msg" style="color: royalblue;">
-        {{ msg }}
-      </p>
+      <div class="alert alert-success alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        {{ msg }} 
+        <!-- <a class="alert-link" href="#">警告链接</a>. -->
+      </div>
       {% endfor %}
 
       <form method="POST" class="m-t" role="form">
@@ -35,7 +37,7 @@
           {{ form.account }}
           {% for err in form.account.errors %}
           <div>
-            <font style="color: red;">{{ err }}</font>
+            <font style="color: #a94442;">{{ err }}</font>
           </div>
           {% endfor %}
         </div>
@@ -44,7 +46,7 @@
           {{ form.pwd }}
           {% for err in form.pwd.errors %}
           <div>
-            <font style="color: red;">{{ err }}</font>
+            <font style="color: #a94442;">{{ err }}</font>
           </div>
           {% endfor %}
         </div>

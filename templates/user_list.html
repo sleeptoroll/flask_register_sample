@@ -1,0 +1,84 @@
+<!-- 继承layout父模板 -->
+{% extends 'base.html' %}
+
+<!-- 重载标题块 -->
+<title>
+  {% block title %}用户列表{% endblock title %}
+</title>
+
+{% block headlist %}
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>欢迎您，{{ username }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="{{ url_for('index') }}">首页</a>
+      </li>
+      <li>
+        <a>表单</a>
+      </li>
+      <li class="active">
+        <a href="{{ url_for('user_list') }}"><strong>用户列表</strong></a>
+      </li>
+    </ol>
+  </div>
+  <div class="col-sm-8">
+    <div class="title-action">
+      <a href="" class="btn btn-primary">创建新用户</a>
+    </div>
+  </div>
+</div>
+{% endblock headlist %}
+
+
+{% block page_content %}
+<div class="wrapper wrapper-content">
+  <!-- <div class="middle-box text-center animated fadeInRightBig"> -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox-content">
+        <table class="table table-hover margin bottom">
+          <thead>
+            <tr>
+              <th style="width: 5%" class="text-center">编号</th>
+              <th style="width: 10%" class="text-center">用户名</th>
+              <th class="text-center">邮箱</th>
+              <th class="text-center">创建日期</th>
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td class="text-center">1</td>
+              <td class="text-center"><span class="label label-default">{{ user.username }}</span</td> <td
+                    class="text-center"><span class="label label-info">{{ user.email }}</span</td> <td
+                      class="text-center"><span class="label label-primary">{{ user.create_time }}</span></td>
+              <td class="text-center">
+                <a href=""><span class="label label-primary">编辑</span></a>
+                <a href=""><span class="label label-danger">删除</span></a>
+                <a href=""><span class="label label-info">查看</span></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</div>
+{% endblock page_content %}
+
+
+{% block scripts %}
+{{ super() }}
+<script>
+  $(document).ready(function () {
+    $("#navli-5").addClass("active");
+    $("#navli-5").children("ul").addClass("active in"); /* 手动添加以及菜单的ul为active in，可以展开 */
+    $("#navli-5-1").addClass("active");
+  })
+</script>
+
+{% endblock scripts %}

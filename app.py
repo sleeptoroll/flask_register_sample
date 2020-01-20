@@ -30,8 +30,10 @@ def register():
     if form.validate_on_submit():
         data = form.data
         admin = Admin(
-            user=data["account"],
-            pwd=generate_password_hash(data["pwd"])  # hash加密密码
+            username=data["account"],
+            pwd=generate_password_hash(data["pwd"]),  # hash加密密码
+            email=data["email"],
+            create_time=data["create_time"]
         )
         db.session.add(admin)
         db.session.commit()
@@ -47,7 +49,7 @@ def login():
         data = form.data
         # 验证用户名(validate_account())和密码(check_pwd())
         admin = Admin.query.filter_by(
-            user=data["account"]).first()  # 数据库中查询出当前表单中传入的用户名对应的一条记录
+            username=data["account"]).first()  # 数据库中查询出当前表单中传入的用户名对应的一条记录
         # 如果对应的密码不正确则闪现提示,并重定向到登录页面
         if not admin.check_pwd(data["pwd"]):
             flash("密码错误！")
@@ -72,8 +74,16 @@ def logout():
 @app.route('/user')
 @admin_login_req
 def index():
-    name = session.get('admin') # 或者使用字典的用法获取键的值 name = session['admin']
+    name = session.get('admin')  # 或者使用字典的用法获取键的值 name = session['admin']
     return render_template("index.html", username=name)
+
+
+@app.route('/user_list')
+@admin_login_req
+def user_list():
+    name = session.get('admin')
+    users = db.session.query(Admin).all()
+    return render_template("user_list.html", username=name, users=users)
 
 
 if __name__ == '__main__':

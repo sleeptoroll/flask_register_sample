@@ -8,13 +8,16 @@
 # db = SQLAlchemy(app)
 
 from exts import db
+from datetime import datetime
 
 
 class Admin(db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
     pwd = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(100), nullable=True)
+    create_time = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def check_pwd(self, pwd):
         from werkzeug.security import check_password_hash

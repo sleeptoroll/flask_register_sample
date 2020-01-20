@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DateTimeField
 from wtforms.validators import DataRequired, EqualTo, ValidationError
 from models import Admin
 
@@ -8,9 +8,9 @@ class LoginForm(FlaskForm):
     """ 登录表单 """
     # 登录账号
     account = StringField(
-        label="账号",
+        label="用户名",
         validators=[
-            DataRequired("请输入账号！")
+            DataRequired("请输入用户名！")
         ],
         description="账号",
         render_kw={
@@ -46,7 +46,7 @@ class LoginForm(FlaskForm):
         account = field.data
         # admin表中查询出用户名为当前表单用户名的数据的条数。
         # 如果条数为0，则表示数据库中没有该用户名，则抛出验证错误ValidationError对象
-        admin = Admin.query.filter_by(user=account).count()
+        admin = Admin.query.filter_by(username=account).count()
         if admin == 0:
             raise ValidationError("账号不存在！")
 
@@ -61,6 +61,18 @@ class RegisterForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入用户名",
+            "required": False
+        }
+    )
+    email = StringField(
+        label="邮箱",
+        description="邮箱",
+        # validators=[
+        #     DataRequired("用户名必填！")
+        # ],
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入邮箱",
             "required": False
         }
     )
@@ -89,6 +101,13 @@ class RegisterForm(FlaskForm):
             "required": False
         }
     )
+    create_time = DateTimeField(
+        label="创建日期",
+        description="创建日期",
+        render_kw={
+            "required": False
+        }
+    )
     submit = SubmitField(
         "注册",
         render_kw={
@@ -100,6 +119,6 @@ class RegisterForm(FlaskForm):
     # 这里的验证表单名必须和类中定义的字段名(account,pwd,repwd等)一一对应
     def validate_account(self, field):
         account = field.data
-        admin = Admin.query.filter_by(user=account).count()
+        admin = Admin.query.filter_by(username=account).count()
         if admin == 1:
             raise ValidationError("用户已经存在！请使用其它用户名")
